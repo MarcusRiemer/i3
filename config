@@ -9,6 +9,9 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
+exec --no-startup-id systemctl --user start random-background.timer
+exec --no-startup-id systemctl --user start xfce4-notifyd.service
+
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -26,12 +29,17 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+Shift+Return exec xfce4-terminal
 
+# start a file explorer
+bindsym $mod+e exec dolphin
+
 bindsym $mod+l exec xscreensaver-command -l
 
 # kill focused window [except it is virtualbox]
 bindsym $mod+Shift+c kill
 # bindsym $mod+Shift+c [class="VBoxSDL"] nop
 
+bindsym $mod+dead_circumflex move scratchpad
+bindsym $mod+Shift+dead_circumflex scratchpad show
 
 # Toggle the touchpad
 bindsym Scroll_Lock exec /home/marcus/bin/toggleTouchpad
@@ -125,31 +133,34 @@ bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-	status_command ~/.i3/conky
-	position top
-    font pango:DejaVu Sans Mono 8
+    position top
+    font pango:DejaVu Sans Mono, Font Awesome 8
+    status_command bumblebee-status \
+      -m nic disk:root cpu memory battery-upower date time pasink pasource \
+      -p root.path=/ time.format="%H:%M" date.format="%a, %b %d %Y, %V KW" nic.states="^down" battery.decorate=false \
+      -t iceberg-contrast
 }
 
-workspace 1 output eDP-1
-workspace 2 output eDP-1
-workspace 3 output eDP-1
-workspace 4 output DP-2-1
-workspace 5 output DP-2-1
-workspace 6 output DP-2-1
-workspace 7 output DP-2-2
-workspace 8 output DP-2-2
-workspace 9 output DP-2-2
-workspace 10 output DP-2-2
+workspace 1 output eDP1
+workspace 2 output eDP1
+workspace 3 output eDP1
+workspace 4 output DP2-2
+workspace 5 output DP2-2
+workspace 6 output DP2-2
+workspace 7 output DP2-3
+workspace 8 output DP2-3
+workspace 9 output DP2-3
+workspace 10 output DP2-3
 
 bindsym $mod+shift+x move workspace to output right
 
-bindsym $mod+Shift+a move container to output eDP-1
-bindsym $mod+Shift+s move container to output DP-2-1
-bindsym $mod+Shift+d move container to output DP-2-2
+bindsym $mod+Shift+a move container to output eDP1
+bindsym $mod+Shift+s move container to output DP2-2
+bindsym $mod+Shift+d move container to output DP2-3
 
-bindsym $mod+a focus output eDP-1
-bindsym $mod+s focus output DP-2-1
-bindsym $mod+d focus output DP-2-2
+bindsym $mod+a focus output eDP1
+bindsym $mod+s focus output DP2-2
+bindsym $mod+d focus output DP2-3
 
 bindsym $mod+Tab workspace next
 
@@ -174,7 +185,7 @@ for_window [class="VBoxSDL"] border pixel 1
 for_window [class="Xfce4-appfinder"] border pixel 1
 for_window [class="Xfce4-appfinder"] floating enable
 for_window [class="pinentry"] floating enable;
-
+for_window [title="Microsoft Teams Notification"] floating enable
 
 mode "resize" {
     # These bindings trigger as soon as you enter the resize mode
@@ -190,8 +201,6 @@ mode "resize" {
 
 # Enter resize mode
 bindsym $mod+r mode "resize"
-
-
 
 ## Plasma Integration
 # Try to kill the wallpaper set by Plasma (it takes up the entire workspace and hides everythiing)
