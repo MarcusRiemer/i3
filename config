@@ -136,7 +136,7 @@ bar {
     position top
     font pango:DejaVu Sans Mono, Font Awesome 8
     status_command bumblebee-status \
-      -m nic disk:root cpu memory battery-upower date time pasink pasource \
+      -m bluetooth2 nic disk:root cpu memory battery-upower date time pasink pasource \
       -p root.path=/ time.format="%H:%M" date.format="%a, %b %d %Y, %V KW" nic.states="^down" battery.decorate=false \
       -t iceberg-contrast
 }
@@ -164,15 +164,16 @@ bindsym $mod+d focus output DP2-3
 
 bindsym $mod+Tab workspace next
 
-for_window [class="Firefox"]     move container to workspace 7
-for_window [class="Telegram"]    move container to workspace 8
-for_window [class="Pidgin"]      move container to workspace 9
-for_window [class="Thunderbird"] move container to workspace 9
+for_window [class="Firefox"]                    move container to workspace 7
+for_window [class="Telegram"]                   move container to workspace 8
+for_window [class="Pidgin"]                     move container to workspace 9
+for_window [class="Thunderbird"]                move container to workspace 9
+for_window [class="microsoft teams - preview"]  move container to workspace 10
 
 bindsym $mod+Shift+j resize grow width 10 px or 10 ppt
 bindsym $mod+Shift+k resize shrink width 10 px or 10 ppt
 
-for_window [class="Firefox"] border pixel 1
+for_window [class="firefox"] border pixel 1
 for_window [class="Thunderbird"] border pixel 1
 for_window [class="Steam"] border pixel 1
 for_window [class="sublime-text"] border pixel 1
@@ -180,12 +181,18 @@ for_window [class="Emacs"] border pixel 1
 for_window [class="VirtualBox"] border pixel 1
 for_window [class="VBoxSDL"] border pixel 1
 for_window [class="Code"] border pixel 1
+for_window [class="jetbrains-rider"] border pixel 1
 for_window [class="Unity"] border pixel 1
 for_window [class="VBoxSDL"] border pixel 1
 for_window [class="Xfce4-appfinder"] border pixel 1
 for_window [class="Xfce4-appfinder"] floating enable
 for_window [class="pinentry"] floating enable;
 for_window [title="Microsoft Teams Notification"] floating enable
+
+# Things in developent
+for_window [class="ExamCalculator.UI"] floating enable;
+for_window [title="ExamCalculator.UI"] floating enable
+
 
 mode "resize" {
     # These bindings trigger as soon as you enter the resize mode
@@ -201,19 +208,3 @@ mode "resize" {
 
 # Enter resize mode
 bindsym $mod+r mode "resize"
-
-## Plasma Integration
-# Try to kill the wallpaper set by Plasma (it takes up the entire workspace and hides everythiing)
-exec --no-startup-id wmctrl -c Plasma
-for_window [title="Desktop — Plasma"] kill; floating enable; border none
-
-## Avoid tiling popups, dropdown windows from plasma
-# for the first time, manually resize them, i3 will remember the setting for floating windows
-for_window [class="plasmashell"] floating enable;
-for_window [class="Plasma"] floating enable; border none
-for_window [title="plasma-desktop"] floating enable; border none
-for_window [title="win7"] floating enable; border none
-for_window [class="krunner"] floating enable; border none
-for_window [class="Kmix"] floating enable; border none
-for_window [class="Klipper"] floating enable; border none
-for_window [class="Plasmoidviewer"] floating enable; border none
